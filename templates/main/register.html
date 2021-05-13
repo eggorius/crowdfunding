@@ -1,0 +1,97 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+{% block content %}
+<main>
+  <div class="py-5 text-center">
+    <h2>Registration form</h2>
+  </div>
+
+  <div class="row g-5">
+    <div class="col-md-4 order-md-2">
+      <p class="lead">Already have an account? <br> <a href="{% url 'login' %}" class="btn btn-primary">Sign in</a></p>
+    </div>
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Main Information</h4>
+      <form class="needs-validation" method="POST">
+
+        <div class="row g-3">
+          <div class="col-sm-6">
+            {% csrf_token %}
+            {{ form|as_crispy_errors }}
+            <label for="firstName" class="form-label">First name</label>
+            {{ form.first_name }}
+{#            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>#}
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="lastName" class="form-label">Last name</label>
+            {{ form.last_name }}
+{#            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>#}
+          </div>
+
+          <div class="col-12">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group has-validation">
+              <span class="input-group-text">@</span>
+              {{ form.email }}
+            <div class="invalid-feedback">
+              Please enter a valid email
+            </div>
+{#              <input type="text" class="form-control" id="username" placeholder="Username" required>#}
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="username" class="form-label">Username</label>
+            {{ form.username }}
+{#            <input type="email" class="form-control" id="email" placeholder="you@example.com">#}
+            <div class="invalid-feedback">
+              Please enter a valid username
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="password" class="form-label">Password</label>
+            {{ form.password }}
+{#            <input type="text" class="form-control" id="password" placeholder="12345678" required>#}
+            <div class="invalid-feedback">
+              Please enter valid password.
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="confirmPassword" class="form-label">Confirm password</label>
+            {{ form.confirm_password }}
+{#            <input type="text" class="form-control" id="password" placeholder="12345678" required>#}
+            <div class="invalid-feedback">
+              Please enter valid password.
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <button type="submit" class="mb-3" style="background: none; border: none;">
+          <i class="fas fa-arrow-alt-circle-right fa-5x" style="margin-left: 50px"></i>
+        </button>
+
+      </form>
+    </div>
+  </div>
+</main>
+<script>
+
+let forms = document.querySelectorAll('.needs-validation')
+
+forms.forEach(form => {
+  form.addEventListener('keypress', event => {
+    form.classList.add('was-validated')
+  }, false)
+})
+</script>
+
+{% endblock %}

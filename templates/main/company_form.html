@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Company</legend>
+      {{ form|crispy }}
+    </fieldset>
+      <button type="submit" class="btn btn-outline-info">Create</button>
+    <div class="form-group">
+
+    </div>
+  </form>
+
+{% endblock %}
