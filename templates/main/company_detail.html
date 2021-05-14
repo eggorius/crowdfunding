@@ -1,27 +1,44 @@
 {% extends 'main/base.html' %}
-{% load embed_video_tags %}
+{% load static %}
+{% load embed_video_tags %}'
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'CSS/company_detail.css' %}">
+{% endblock %}
 {% block content %}
   <div class="row">
     <!-- Post content-->
     <div class="col-lg-8">
       <!-- Title-->
-      <h1 class="mt-4">{{ object.title }}</h1>
+      <h1 class="mt-4">{{ company.title }}</h1>
       <!-- Author-->
       <p class="lead">
         by {{ user.username }}
       </p>
       <hr>
       <!-- Date and time-->
-      <p>Posted on {{ object.date_created|date:"F d, Y" }}</p>
+      <p>Posted on {{ company.date_created|date:"F d, Y" }}</p>
       <hr>
       <!-- Preview image-->
       <img class="img-fluid rounded" src="https://via.placeholder.com/900x300" alt="...">
       <hr>
       <!-- Post content-->
-      <p> {{ object.description|safe }} </p>
+      <p> {{ company.description|safe }} </p>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius
         illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
       {% video object.video_url 'small' %}
+      <hr>
+      <!-- Rating form-->
+      <form action="{% url 'add-rating' %}" method="POST" name="rating">
+        <p class="lead">Rate this company</p>
+        {% csrf_token %}
+        <span class="rating">
+          {% for k, v in star_form.fields.star.choices %}
+            <input type="hidden" value="{{ company.id }}" name="company">
+            <input type="radio" id="rating{{ v }}" name="star" value="{{ v }}">
+            <label for="rating{{ v }}">{{ k }}</label>
+          {% endfor %}
+        </span>
+      </form>
       <hr>
       <!-- Comments form-->
       <div class="card my-4">

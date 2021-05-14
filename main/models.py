@@ -41,6 +41,39 @@ class Tag(models.Model):
         return ''.join(self.title)
 
 
+class Comment(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    published = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='comments')
+
+    class Meta:
+        ordering = ['published']
+
+    def __str__(self):
+        return f'Comment by {self.author.username}'
+
+
+class RatingStar(models.Model):
+    value = models.SmallIntegerField('Value', default=0)
+
+    def __str__(self):
+        return f'{self.value}'
+
+    class Meta:
+        ordering = ['-value']
+
+
+class Rating(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    star = models.ForeignKey(RatingStar, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.star} - {self.company}'
+
+
 #  Users staff
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

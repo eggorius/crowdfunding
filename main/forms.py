@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Company, Rating, RatingStar
 
 
 class RegistrationForm(forms.ModelForm):
@@ -68,5 +69,19 @@ class LoginForm(forms.ModelForm):
         }
 
 
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ['title', 'description', 'video_url', 'theme', 'goal', 'date_finish']
+        widgets = {
+            'date_finish': forms.SelectDateWidget(),
+        }
 
 
+class RatingForm(forms.ModelForm):
+    star = forms.ModelChoiceField(queryset=RatingStar.objects.all(),
+                                  widget=forms.RadioSelect(), empty_label=None)
+
+    class Meta:
+        model = Rating
+        fields = ['star']

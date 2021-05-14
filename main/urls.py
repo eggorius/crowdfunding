@@ -11,7 +11,8 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('mycompanies/', views.my_companies_view, name='my-companies'),
     path('company/<int:pk>/', views.CompanyDetailView.as_view(), name='company'),
-    path('company/new/', views.CompanyCreateView.as_view(), name='company-create'),
+    path('company/new/', views.create_company, name='create-company'),
+    path('add-rating/', views.add_star_rating, name='add-rating'),
 ]
 
 if settings.DEBUG:

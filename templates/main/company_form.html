@@ -2,15 +2,28 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_filters %}
 {% block content %}
-  <form method="post">
+  <form method="POST">
     {% csrf_token %}
-    <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Company</legend>
-      {{ form|crispy }}
-    </fieldset>
-      <button type="submit" class="btn btn-outline-info">Create</button>
-    <div class="form-group">
-
+    <div class="row">
+      <!-- Post content-->
+      <div class="col-lg-8">
+        {{ form.media }}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-outline-secondary mb-4 mt-2" style="width: 100%">Create</button>
+      </div>
+      <!-- Sidebar widgets column-->
+      <div class="col-md-4">
+        <!-- Search widget-->
+        <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Search for...">
+              <span class="input-group-append"><button class="btn btn-secondary" type="button">Go!</button></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
 

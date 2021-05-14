@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, CompanyForm, RatingForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView
@@ -17,10 +18,22 @@ def my_companies_view(request):
 class CompanyDetailView(DetailView):
     model = Company
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['star_form'] = RatingForm()
+        return context
 
-class CompanyCreateView(CreateView):
-    model = Company
-    fields = ['title', 'description', 'video_url', 'theme', 'goal', 'date_finish']
+
+@login_required(login_url='login/')
+def create_company(request):
+    if request.method == 'POST':
+        form = CompanyForm(request.POST or None)
+        if form.is_valid():
+            form.instance.author_id = request.user.id
+            form.save()
+            return redirect('my-companies')
+    form = CompanyForm(request.POST or None)
+    return render(request, 'main/company_form.html', {'form': form})
 
 
 def home(request):
@@ -68,3 +81,15 @@ def profile(request):
     return render(request, 'main/profile.html')
 
 
+def add_star_rating(request):
+    if request.method == 'POST':
+        form = RatingForm(request.POST or None)
+        if form.is_valid():
+            Rating.objects.update_or_create(
+                author_id=request.user.id,
+                company_id=int(request.POST.get('company')),
+                defaults={'star_id': int(request.POST.get('star'))}
+            )
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=400)
