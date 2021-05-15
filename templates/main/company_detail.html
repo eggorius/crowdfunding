@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load cloudinary %}
 {% load embed_video_tags %}'
 {% block styles %}
   <link rel="stylesheet" href="{% static 'CSS/company_detail.css' %}">
@@ -18,8 +19,16 @@
       <!-- Date and time-->
       <p>Posted on {{ company.date_created|date:"F d, Y" }}</p>
       <hr>
-      <!-- Preview image-->
-      <img class="img-fluid rounded" src="https://via.placeholder.com/900x300" alt="...">
+      <!-- Image gallery -->
+      <div class="row text-center text-lg-left">
+        {% for photo in company.photo_set.all %}
+          <div class="col-lg-3 col-md-4 col-6">
+            <a href="#" class="d-block mb-4 h-100">
+             <img class="img-fluid img-thumbnail" src="{{ photo.image.url }}" alt="">
+            </a>
+          </div>
+        {% endfor %}
+      </div>
       <hr>
       <!-- Post content-->
       <p> {{ company.description|safe }} </p>

@@ -1,6 +1,9 @@
 from pathlib import Path
 import django_heroku
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'bootstrap4',
+    'cloudinary',
     'embed_video',
     'social_django',
     'braces',
@@ -148,5 +152,11 @@ SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY')        # A
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('SOCIAL_AUTH_FACEBOOK_SECRET')  # App Secret
 
 SITE_ID = 1
+
+cloudinary.config(
+  cloud_name="egorcloud",
+  api_key="254394539457559",
+  api_secret="NBbJO7_Q5Av__UAu77CSSntR0y8"
+)
 
 django_heroku.settings(locals())

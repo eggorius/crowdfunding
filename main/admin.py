@@ -5,5 +5,6 @@ admin.site.register(UserProfile)
 admin.site.register(Company)
 admin.site.register(Rating)
 admin.site.register(RatingStar)
+admin.site.register(Photo)
 
 # Register your models here.

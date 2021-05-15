@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from cloudinary.models import CloudinaryField
 
 THEME_CHOICES = [
     ('EL', 'Electronic'),
@@ -81,4 +82,14 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
+
+
+class Photo(models.Model):
+    # Misc Django Fields
+    title = models.CharField("Title (optional)", max_length=200, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    # Points to a Cloudinary image
+    image = CloudinaryField('image')
+
 
