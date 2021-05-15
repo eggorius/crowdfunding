@@ -48,7 +48,7 @@ def login_view(request):
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user:
-                login(request, user)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 messages.success(request, f'Your successfully logged in!')
                 return redirect('home')
         return render(request, 'main/login.html', {'form': form})
@@ -63,7 +63,7 @@ def register_view(request):
             new_user = form.save()
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
-            login(request, new_user)
+            login(request, new_user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, f'Your account has been created!')
             return redirect('home')
         return render(request, 'main/register.html', {'form': form})

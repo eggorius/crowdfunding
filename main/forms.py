@@ -4,35 +4,27 @@ from .models import Company, Rating, RatingStar
 
 
 class RegistrationForm(forms.ModelForm):
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'id': 'password'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'id': 'password'}))
+    # confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'id': 'confirm'}))
+    # password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'id': 'password'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password']
         widgets = {
-            'username': forms.TextInput(attrs={
-                'class': 'form-control',
-                'id': '',
-            }),
-            'first_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'id': 'firstName',
-            }),
-            'last_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'id': 'lastName',
-            }),
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'id': 'email',
-            }),
-
+            'email': forms.EmailInput(attrs={'class': 'form-control'})
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['email'].required = True
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError(f'User with such email already exists.')
+        return email
 
 
 class LoginForm(forms.ModelForm):
