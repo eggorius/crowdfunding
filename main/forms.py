@@ -1,11 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Company, Rating, RatingStar
+from .models import Company, Rating, RatingStar, Photo
 
 
 class RegistrationForm(forms.ModelForm):
-    # confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'id': 'confirm'}))
-    # password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'id': 'password'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput)
     password = forms.CharField(widget=forms.PasswordInput)
 
@@ -77,3 +75,14 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
         fields = ['star']
+
+
+class UpdateCompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ['title', 'description', 'video_url', 'theme', 'goal', 'date_finish']
+        widgets = {
+            'date_finish': forms.SelectDateWidget(),
+        }
+
+

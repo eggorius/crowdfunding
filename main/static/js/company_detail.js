@@ -11,3 +11,5 @@ rating.addEventListener("change", function (e) {
       .then(response => alert("Rating saved"))
       .catch(error => alert("Error"))
 });
+
+

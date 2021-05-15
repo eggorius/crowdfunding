@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+{% block content %}
+  <div class="row">
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Post content-->
+      <div class="col-lg-8">
+        {{ form.media }}
+        {{ form|crispy }}
+
+
+        <button type="submit" class="btn btn-outline-secondary mb-4 mt-2" style="width: 100%">Create</button>
+      </div>
+    </form>
+    <!-- Sidebar widgets column-->
+    <div class="card my-4" style="border: none">
+      <h5 class="card-header">Pictures</h5>
+      <div class="card-body">
+        <form action="{% url 'company-images' company.id %}" method="POST" class="dropzone" name="images"
+              id="my-dropzone"
+              style="border: dashed #CCCCCC; border-radius: 10px" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="fallback">
+            <input type="hidden" value="222" name="company_id">
+            <input name="file" type="file" multiple/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock %}
+{% block script %}
+  <script src="{% static 'js/draganddrop.js' %}"></script>
+{% endblock %}

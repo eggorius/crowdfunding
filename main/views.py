@@ -1,12 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm, LoginForm, CompanyForm, RatingForm
+from .forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView, CreateView
-from braces.views import LoginRequiredMixin
+from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
+from .decorators import check_for_authority
 
 
 @login_required(login_url='login/')
@@ -23,6 +24,9 @@ class CompanyDetailView(DetailView):
         context['star_form'] = RatingForm()
         return context
 
+    def get_template_names(self):
+        return super().get_template_names()
+
 
 @login_required(login_url='login/')
 def create_company(request):
@@ -33,7 +37,7 @@ def create_company(request):
             form.save()
             return redirect('my-companies')
     form = CompanyForm(request.POST or None)
-    return render(request, 'main/company_form.html', {'form': form})
+    return render(request, 'main/company_create_form.html', {'form': form})
 
 
 def home(request):
@@ -87,9 +91,33 @@ def add_star_rating(request):
         if form.is_valid():
             Rating.objects.update_or_create(
                 author_id=request.user.id,
-                company_id=int(request.POST.get('company')),
+                company_id=int(request.POST.get('company_id')),
                 defaults={'star_id': int(request.POST.get('star'))}
             )
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=400)
+
+
+def upload_company_images(request, pk):
+    if request.method == 'POST':
+        file = request.FILES.get('file')
+        Photo.objects.create(image=file,
+                             company_id=pk)
+        return HttpResponse(201)
+    return HttpResponse('')
+
+
+@login_required
+@check_for_authority
+def update_company(request, pk):
+    company = Company.objects.get(pk=pk)
+    if request.method == 'POST':
+        print(request.FILES.get('file'))
+        file = request.FILES.get('file')
+        form = UpdateCompanyForm(request.POST, instance=company)
+        if form.is_valid():
+            form.save()
+            return redirect(company.get_absolute_url())
+    form = UpdateCompanyForm(instance=company)
+    return render(request, 'main/company_update_form.html', {'form': form, 'company': company})

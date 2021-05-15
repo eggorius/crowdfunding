@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'embed_video',
     'social_django',
-    'braces',
     'crispy_forms',
     'ckeditor',
     'main',
