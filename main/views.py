@@ -101,9 +101,13 @@ def add_star_rating(request):
 
 def upload_company_images(request, pk):
     if request.method == 'POST':
+        print(request.FILES)
         file = request.FILES.get('file')
-        Photo.objects.create(image=file,
-                             company_id=pk)
+        if file is not None:
+            Photo.objects.create(
+                image=file,
+                company_id=pk
+            )
         return HttpResponse(201)
     return HttpResponse('')
 
@@ -113,8 +117,6 @@ def upload_company_images(request, pk):
 def update_company(request, pk):
     company = Company.objects.get(pk=pk)
     if request.method == 'POST':
-        print(request.FILES.get('file'))
-        file = request.FILES.get('file')
         form = UpdateCompanyForm(request.POST, instance=company)
         if form.is_valid():
             form.save()
