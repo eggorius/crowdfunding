@@ -33,8 +33,7 @@
       <hr>
       <!-- Post content-->
       <p> {{ company.description|safe }} </p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius
-        illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
+
       {% video object.video_url 'small' %}
       <hr>
       <!-- Rating form-->
@@ -113,14 +112,13 @@
       {#      </div>#}
       <!-- Side widget-->
       <div class="card my-4">
-        <h5 class="card-header">Side Widget</h5>
         <div class="card-body">
           <h3>This company needs</h3>
           <hr>
           <p class="lead">${{ company.goal }}</p>
           <hr>
           <a class="btn btn-outline-success" href="#">Donate</a>
-          {% if company.author == user %}
+          {% if company.author == user or user.is_superuser %}
             <a class="btn btn-secondary" href="{% url 'update-company' company.id %}">Update company</a>
           {% endif %}
         </div>

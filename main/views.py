@@ -6,11 +6,10 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import *
 from .decorators import check_for_authority
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-from django.db.models import Q
+from django.core.paginator import Paginator
 import json
 
 
@@ -48,8 +47,16 @@ def create_company(request):
     if request.method == 'POST':
         form = CompanyForm(request.POST or None)
         if form.is_valid():
+            tags_title = request.POST.get('tags-input')
             form.instance.author_id = request.user.id
             form.save()
+            if len(tags_title):
+                tags_parsed = parse_tagify_tags(tags_title)
+                for tag in tags_parsed:
+                    t = Tag(title=tag)
+                    if not Tag.objects.filter(title=tag).exists():
+                        t.save()
+                        form.instance.tags.add(t)
             return redirect('my-companies')
     form = CompanyForm(request.POST or None)
     return render(request, 'main/company_create_form.html', {'form': form})
@@ -58,7 +65,7 @@ def create_company(request):
 def parse_tagify_tags(tags_titles):
     tags_titles = json.loads(tags_titles)
     tags_titles_parsed = [t["value"] for t in tags_titles]
-    return Tag.objects.filter(title__in=tags_titles_parsed)
+    return tags_titles_parsed
 
 
 def home(request):
@@ -68,10 +75,16 @@ def home(request):
     if request.method == 'POST':
         tag_titles = request.POST.get('tags-jquery')
         if len(tag_titles):
-            tags = parse_tagify_tags(tag_titles)
+            tags_parsed = parse_tagify_tags(tag_titles)
+            tags = Tag.objects.filter(title__in=tags_parsed)
             companies = set(Company.objects.filter(tags__in=tags))
-        return render(request, 'main/home.html', {'companies': companies, 'tags': all_tags, 'data': data})
-    return render(request, 'main/home.html', {'companies': companies, 'tags': all_tags, 'data': data})
+            return render(request, 'main/home.html', {'companies': companies, 'tags': all_tags,
+                                                      'data': data})
+    paginator = Paginator(companies, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'main/home.html', {'tags': all_tags,
+                                              'data': data, 'companies': page_obj})
 
 
 def login_view(request):
