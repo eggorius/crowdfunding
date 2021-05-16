@@ -8,7 +8,8 @@ from django.views.generic import DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import *
 from .decorators import check_for_authority
-import cloudinary.uploader
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.db.models import Q
 
 
 @login_required(login_url='login/')
@@ -38,7 +39,6 @@ def leave_comment(request, pk):
             form.instance.company_id = pk
             form.save()
         return redirect(company.get_absolute_url())
-
 
 
 @login_required
@@ -152,4 +152,25 @@ def delete_company(request, pk):
         return render(request, 'main/company_list.html', {'companies': companies})
 
 
+def get_company_queryset(query=None):
+    queryset = []
+    queries = query.split(" ")
+    for q in queries:
+        companies = Company.objects.filter(
+            Q(title__icontains=q) |
+            Q(description__in=q)
+        ).distinct()
+        for company in companies:
+            queryset.append(company)
+    return list(set(queryset))
 
+
+def search_view(request):
+    if request.method == 'POST':
+        q = request.POST['search']
+        results = Company.objects.annotate(
+            search=SearchVector('title', 'description', 'comments__content')
+        ).filter(search=SearchQuery(q, search_type='raw'))
+        return render(request, 'main/search_results.html', {'q': q, 'results': results})
+
+    return render(request, 'main/search_results.html')
