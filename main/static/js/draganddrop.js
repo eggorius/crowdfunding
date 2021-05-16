@@ -5,5 +5,4 @@ const myDropzone = new Dropzone('#my-dropzone', {
   maxFilesize: 2,
   acceptedFiles: '.jpg',
   ignoreHiddenFiles: false,
-  uploadMultiple: true,
 })
