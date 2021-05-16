@@ -152,19 +152,6 @@ def delete_company(request, pk):
         return render(request, 'main/company_list.html', {'companies': companies})
 
 
-def get_company_queryset(query=None):
-    queryset = []
-    queries = query.split(" ")
-    for q in queries:
-        companies = Company.objects.filter(
-            Q(title__icontains=q) |
-            Q(description__in=q)
-        ).distinct()
-        for company in companies:
-            queryset.append(company)
-    return list(set(queryset))
-
-
 def search_view(request):
     if request.method == 'POST':
         q = request.POST['search']
