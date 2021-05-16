@@ -8,6 +8,7 @@ from django.views.generic import DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import *
 from .decorators import check_for_authority
+import cloudinary.uploader
 
 
 @login_required(login_url='login/')
@@ -79,7 +80,9 @@ def register_view(request):
         if form.is_valid():
             new_user = form.save()
             new_user.set_password(form.cleaned_data['password'])
+            user_profile = UserProfile(user_id=new_user.id)
             new_user.save()
+            user_profile.save()
             login(request, new_user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, f'Your account has been created!')
             return redirect('home')
