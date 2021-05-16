@@ -1,11 +1,13 @@
+from abc import ABC
+
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import *
 from .decorators import check_for_authority
 
@@ -123,3 +125,12 @@ def update_company(request, pk):
             return redirect(company.get_absolute_url())
     form = UpdateCompanyForm(instance=company)
     return render(request, 'main/company_update_form.html', {'form': form, 'company': company})
+
+
+class CompanyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Company
+
+    def test_func(self):
+        company = self.get_object()
+        return self.request.user == company.author or self.request.user.is_superuser
+
