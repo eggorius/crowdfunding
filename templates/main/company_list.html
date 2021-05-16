@@ -11,7 +11,8 @@
               <div class="card mb-4 box-shadow">
                 <img class="card-img-top"
                      data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
-                     alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="{{ user.userprofile.image.url }}"
+                     alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;"
+                     src="{{ user.userprofile.image.url }}"
                      data-holder-rendered="true">
                 <div class="card-body">
                   <p class="card-text">{{ company.title }}</p>
@@ -20,7 +21,8 @@
                       <form method="POST" action="{% url 'delete-company' company.id %}" name="erase">
                         {% csrf_token %}
                         <a href="{% url 'company' company.id %}" class="btn btn-sm btn-outline-secondary">View</a>
-                        <a href="{% url 'update-company' company.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'update-company' company.id %}"
+                           class="btn btn-sm btn-outline-secondary">Edit</a>
                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                       </form>
                     </div>
@@ -40,6 +42,6 @@
 {% endblock %}
 
 {% block script %}
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="{% static 'js/company_list.js' %}"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="{% static 'js/company_list.js' %}"></script>
 {% endblock %}

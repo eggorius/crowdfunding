@@ -53,7 +53,8 @@ def create_company(request):
 
 
 def home(request):
-    return render(request, 'main/home.html')
+    companies = Company.objects.all()
+    return render(request, 'main/home.html', {'companies': companies})
 
 
 def login_view(request):
