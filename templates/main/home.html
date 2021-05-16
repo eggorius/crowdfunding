@@ -1,5 +1,8 @@
 {% extends 'main/base.html' %}
-
+{% load static %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'css/tagify.css' %}">
+{% endblock %}
 {% block content %}
   <div class="row">
     <!-- Blog entries-->
@@ -8,13 +11,22 @@
         Page Heading
         <small>Secondary Text</small>
       </h1>
+      <form method="post" class="mt-3 mb-3">
+        {% csrf_token %}
+        <div class="form-group">
+          <input name='tags-jquery' value="type, some, tags" placeholder='write some tags' aria-label="Write some tags">
+          <button class="btn btn-outline-success mt-3 ">Find</button>
+        </div>
+      </form>
       <!-- Blog post-->
       {% for company in companies %}
         <div class="card mb-4">
           {% if company.photo_set.all.first %}
-            <img class="card-img-top" style="width: 100%; height: 25rem" src="{{ company.photo_set.all.first.image.url }}" alt="Card image cap">
+            <img class="card-img-top" style="width: 100%; height: 25rem"
+                 src="{{ company.photo_set.all.first.image.url }}" alt="Card image cap">
           {% else %}
-            <img class="card-img-top" style="width: 100%; height: 25rem" src="{{ company.author.userprofile.image.url }}" alt="Card image cap">
+            <img class="card-img-top" style="width: 100%; height: 25rem"
+                 src="{{ company.author.userprofile.image.url }}" alt="Card image cap">
           {% endif %}
           <div class="card-body">
             <h2 class="card-title">{{ company.title }}</h2>
@@ -26,6 +38,8 @@
             <p>{{ company.author.username }}</p>
           </div>
         </div>
+      {% empty %}
+        <h2 class="mt-5 mb-5">UPS! No companies found...</h2>
       {% endfor %}
 
       <!-- Pagination-->
@@ -67,4 +81,43 @@
       </div>
     </div>
   </div>
+{% endblock %}
+{% block script %}
+  <script src="{% static 'tagify/dist/jQuery.tagify.min.js' %}"></script>
+  {{ data|json_script:"all-tags" }}
+  <script>
+    const allTags = JSON.parse(document.getElementById('all-tags').textContent);
+    const tagsObjects = JSON.parse(allTags)
+    let tags = []
+    for (k of tagsObjects) {
+      tags.push(k['fields']['title'])
+    }
+    console.log(tags)
+    const $input = $('input[name=tags-jquery]')
+      .tagify({
+        whitelist: tags,
+        maxItems: 20,
+        dropdown: {
+          maxItems: 20,           // <- mixumum allowed rendered suggestions
+          classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
+          enabled: 0,             // <- show suggestions on focus
+          closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
+        }
+      })
+      .on('add', function (e, tagName) {
+        console.log('JQEURY EVENT: ', 'added', tagName)
+      })
+      .on("invalid", function (e, tagName) {
+        console.log('JQEURY EVENT: ', "invalid", e, ' ', tagName);
+      });
+
+    // get the Tagify instance assigned for this jQuery input object so its methods could be accessed
+    const jqTagify = $input.data('tagify');
+
+    // bind the "click" event on the "remove all tags" button
+    $('#tags-jquery--removeAllBtn').on('click', jqTagify.removeAllTags.bind(jqTagify))
+
+
+    {#const $input1 = $('input[name=tags-input]').tagify()#}
+  </script>
 {% endblock %}

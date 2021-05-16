@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'bootstrap4',
     'cloudinary',
+    'django_tagify',
     'embed_video',
     'social_django',
     'crispy_forms',

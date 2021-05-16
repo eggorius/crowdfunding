@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import *
@@ -10,6 +11,7 @@ from .models import *
 from .decorators import check_for_authority
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.db.models import Q
+import json
 
 
 @login_required(login_url='login/')
@@ -53,9 +55,23 @@ def create_company(request):
     return render(request, 'main/company_create_form.html', {'form': form})
 
 
+def parse_tagify_tags(tags_titles):
+    tags_titles = json.loads(tags_titles)
+    tags_titles_parsed = [t["value"] for t in tags_titles]
+    return Tag.objects.filter(title__in=tags_titles_parsed)
+
+
 def home(request):
     companies = Company.objects.all()
-    return render(request, 'main/home.html', {'companies': companies})
+    all_tags = Tag.objects.all()
+    data = serializers.serialize('json', list(all_tags), fields='title')
+    if request.method == 'POST':
+        tag_titles = request.POST.get('tags-jquery')
+        if len(tag_titles):
+            tags = parse_tagify_tags(tag_titles)
+            companies = set(Company.objects.filter(tags__in=tags))
+        return render(request, 'main/home.html', {'companies': companies, 'tags': all_tags, 'data': data})
+    return render(request, 'main/home.html', {'companies': companies, 'tags': all_tags, 'data': data})
 
 
 def login_view(request):
