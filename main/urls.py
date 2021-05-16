@@ -15,7 +15,7 @@ urlpatterns = [
     path('company/new/', views.create_company, name='create-company'),
     path('add-rating/', views.add_star_rating, name='add-rating'),
     path('upload-company-images/<int:pk>', views.upload_company_images, name='company-images'),
-    path('company/<int:pk>/delete', views.CompanyDeleteView.as_view(), name='delete-company'),
+    path('company/<int:pk>/delete', views.delete_company, name='delete-company'),
 
 ]
 

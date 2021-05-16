@@ -17,8 +17,12 @@
                   <p class="card-text">{{ company.title }}</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="{% url 'company' company.id %}" class="btn btn-sm btn-outline-secondary">View</a>
-                      <a href="{% url 'update-company' company.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                      <form method="POST" action="{% url 'delete-company' company.id %}" name="erase">
+                        {% csrf_token %}
+                        <a href="{% url 'company' company.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                        <a href="{% url 'update-company' company.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                      </form>
                     </div>
                     <small class="text-muted">{{ company.date_created|date:"F d, Y" }}</small>
                   </div>

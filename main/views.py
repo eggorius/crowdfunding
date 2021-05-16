@@ -1,5 +1,3 @@
-from abc import ABC
-
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -127,10 +125,12 @@ def update_company(request, pk):
     return render(request, 'main/company_update_form.html', {'form': form, 'company': company})
 
 
-class CompanyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Company
-
-    def test_func(self):
-        company = self.get_object()
-        return self.request.user == company.author or self.request.user.is_superuser
-
+@login_required
+@check_for_authority
+def delete_company(request, pk):
+    if request.method == 'POST':
+        company = Company.objects.get(id=pk)
+        company.delete()
+        print('Everything is working')
+        companies = Company.objects.all()
+        return render(request, 'main/company_list.html', {'companies': companies})

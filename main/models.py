@@ -20,7 +20,7 @@ class Company(models.Model):
     tags = models.ManyToManyField('Tag', blank=True, related_name='companies')
     video_url = models.URLField(max_length=200)
     theme = models.CharField(max_length=2, choices=THEME_CHOICES, default='IT')
-    goal = models.DecimalField(max_digits=7, decimal_places=2)
+    goal = models.DecimalField(max_digits=10, decimal_places=2)
     date_created = models.DateField(auto_now_add=True)
     date_finish = models.DateField()
 
