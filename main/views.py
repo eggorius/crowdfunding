@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib import messages
@@ -22,13 +22,25 @@ class CompanyDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['star_form'] = RatingForm()
+        context['comment_form'] = CommentForm()
         return context
 
-    def get_template_names(self):
-        return super().get_template_names()
+
+@login_required
+def leave_comment(request, pk):
+    company = Company.objects.get(id=pk)
+    if request.method == 'POST':
+        print('Im here')
+        form = CommentForm(request.POST or None)
+        if form.is_valid():
+            form.instance.author_id = request.user.id
+            form.instance.company_id = pk
+            form.save()
+        return redirect(company.get_absolute_url())
 
 
-@login_required(login_url='login/')
+
+@login_required
 def create_company(request):
     if request.method == 'POST':
         form = CompanyForm(request.POST or None)
@@ -80,7 +92,7 @@ def logout_user(request):
     return redirect('login')
 
 
-@login_required(login_url='login')
+@login_required
 def profile(request):
     return render(request, 'main/profile.html')
 
@@ -134,3 +146,6 @@ def delete_company(request, pk):
         print('Everything is working')
         companies = Company.objects.all()
         return render(request, 'main/company_list.html', {'companies': companies})
+
+
+

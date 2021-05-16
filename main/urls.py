@@ -16,6 +16,7 @@ urlpatterns = [
     path('add-rating/', views.add_star_rating, name='add-rating'),
     path('upload-company-images/<int:pk>', views.upload_company_images, name='company-images'),
     path('company/<int:pk>/delete', views.delete_company, name='delete-company'),
+    path('company/<int:pk>/comments/new', views.leave_comment, name='create-comment'),
 
 ]
 

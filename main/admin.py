@@ -6,5 +6,6 @@ admin.site.register(Company)
 admin.site.register(Rating)
 admin.site.register(RatingStar)
 admin.site.register(Photo)
+admin.site.register(Comment)
 
 # Register your models here.
