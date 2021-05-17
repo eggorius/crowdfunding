@@ -3,7 +3,7 @@
 {% load crispy_forms_filters %}
 {% load static %}
 {% load socialaccount %}
-
+{% load i18n %}
 {% block styles %}
     <link rel="stylesheet" href="{% static 'CSS/login.css' %}">
 {% endblock %}
@@ -12,18 +12,18 @@
 <main>
   <form class="form-signin" method="POST">
     {% csrf_token %}
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="id_username" class="sr-only">Username</label>
+    <h1 class="h3 mb-3 font-weight-normal">{% trans 'Please sign in' %}</h1>
+    <label for="id_username" class="sr-only">{% trans 'Username' %}</label>
 {#    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">#}
-    <label for="id_password" class="sr-only">Password</label>
+    <label for="id_password" class="sr-only">{% trans 'Password' %}</label>
     {{ form|as_crispy_errors }}
     {{ form.username }}
     {{ form.password }}
 {#    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">#}
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <a href="{% provider_login_url 'google' %}" class="btn btn-lg btn-primary btn-block mb-2" style="color: white">Login with Google</a>
-    <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-lg btn-primary btn-block mb-2" style="color: white">Login with Facebook</a>
-    <a href="{% url 'register' %}" class="btn btn-sm btn-block">Sign up</a>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans 'Sign in' %}</button>
+    <a href="{% provider_login_url 'google' %}" class="btn btn-lg btn-primary btn-block mb-2" style="color: white">{% trans 'Login with Google' %}</a>
+    <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-lg btn-primary btn-block mb-2" style="color: white">{% trans 'Login with Facebook' %}</a>
+    <a href="{% url 'register' %}" class="btn btn-sm btn-block">{% trans 'Sign up' %}</a>
 
   </form>
 </main>
