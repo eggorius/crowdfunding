@@ -34,6 +34,17 @@ class Company(models.Model):
     def get_absolute_url(self):
         return reverse('company', kwargs={'pk': self.pk})
 
+    @property
+    def get_average_rating(self):
+        total_rating = 0
+        print("count ", self.rating_set.count())
+        for rating in self.rating_set.all():
+            total_rating += int(rating.star.value)
+        print("Total rating ", total_rating)
+        if self.rating_set.count() == 0:
+            return total_rating
+        return total_rating / self.rating_set.count()
+
 
 class Bonus(models.Model):
     money = models.CharField(max_length=20)
@@ -77,8 +88,6 @@ class Rating(models.Model):
 
     def __str__(self):
         return f'{self.star} - {self.company}'
-
-
 
 
 #  Users staff

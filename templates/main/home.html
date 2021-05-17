@@ -35,6 +35,7 @@
           <div class="card-footer text-muted">
             Posted on {{ company.date_created|date:"F d, Y" }}
             <p>{{ company.author.username }}</p>
+              <h2>Average rating:   {{ company.get_average_rating }} ({{ company.rating_set.count }})</h2>
              {% for tag in company.tags.all %}
                #{{ tag.title }};
              {% endfor %}
