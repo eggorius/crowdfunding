@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-17 23:31+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\templates\main\company_detail.html:42
+msgid "Rate this company"
+msgstr "Оцените данную компанию"
+
+#: .\templates\main\company_detail.html:55
+msgid "Leave a Comment:"
+msgstr "Оставьте свой комментарий"
+
+#: .\templates\main\company_detail.html:111
+msgid "Donate"
+msgstr "Пожертвовать"
+
+#: .\templates\main\home.html:12
+msgid "Type some tags"
+msgstr "Введите теги"
+
+#: .\templates\main\home.html:86
+msgid "Show all"
+msgstr "Показать все"
+
+#: .\templates\main\login.html:15
+msgid "Please sign in"
+msgstr "Пожалуйста войдите"
+
+#: .\templates\main\login.html:16
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: .\templates\main\login.html:18
+msgid "Password"
+msgstr "Пароль"
+
+#: .\templates\main\login.html:23
+msgid "Sign in"
+msgstr "Зарегистрироваться"
+
+#: .\templates\main\login.html:24
+msgid "Login with Google"
+msgstr "Войти с помощью Google"
+
+#: .\templates\main\login.html:25
+msgid "Login with Facebook"
+msgstr "Войти с помощь Facebook"
+
+#: .\templates\main\login.html:26
+msgid "Sign up"
+msgstr "Зарегистрироваться"
+
+#: .\templates\main\profile.html:15
+msgid "You can update your profile image here"
+msgstr "Здесь вы можете обновить фотографию своего профиля."
+

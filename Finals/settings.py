@@ -4,7 +4,7 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -157,10 +157,6 @@ gettext = lambda s: s
 LANGUAGES = (
     ('en', _('English')),
     ('ru', _('Russia')),
-)
-
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
 )
 
 STATIC_URL = '/static/'
