@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'ckeditor',
     'main',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -57,9 +61,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'Finals.urls'
 
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.linkedin.LinkedinOAuth2',
-    'social_core.backends.instagram.InstagramOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
+    'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -169,5 +172,16 @@ cloudinary.config(
   api_key="254394539457559",
   api_secret="NBbJO7_Q5Av__UAu77CSSntR0y8"
 )
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile'
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online'
+        }
+    }
+}
 
 django_heroku.settings(locals())

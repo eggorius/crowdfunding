@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_filters %}
 {% load static %}
+{% load socialaccount %}
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'CSS/login.css' %}">
@@ -20,6 +21,7 @@
     {{ form.password }}
 {#    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">#}
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <a href="{% provider_login_url 'google' %}" class="btn btn-lg btn-primary btn-block mb-2" style="color: white">Login with Google</a>
     <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-lg btn-primary btn-block mb-2" style="color: white">Login with Facebook</a>
     <a href="{% url 'register' %}" class="btn btn-sm btn-block">Sign up</a>
 
