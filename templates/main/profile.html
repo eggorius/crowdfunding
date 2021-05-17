@@ -2,14 +2,19 @@
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="content-section">
-      <div class="media">
+  <div class="content-section">
+    <div class="media">
+      {% if user.userprogile.image is None %}
+        <img class="rounded-circle account-img"
+             src="https://res.cloudinary.com/egorcloud/image/upload/v1621249116/votleq4mdqkx0stxbk1h.jpg" alt="">
+      {% else %}
         <img class="rounded-circle account-img" src="{{ user.userprofile.image.url }}" alt="">
-        <div class="media-body">
-          <h2 style="font-size: 2.5rem">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
-        </div>
+      {% endif %}
+      <div class="media-body">
+        <h2 style="font-size: 2.5rem">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
       </div>
-      <!-- FORM HERE -->
     </div>
+    <!-- FORM HERE -->
+  </div>
 {% endblock %}

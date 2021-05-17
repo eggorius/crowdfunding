@@ -20,12 +20,12 @@
       <!-- Blog post-->
       {% for company in companies %}
         <div class="card mb-4">
-          {% if company.photo_set.all.first %}
+          {% if company.photo_set.count %}
             <img class="card-img-top" style="width: 100%; height: 25rem"
                  src="{{ company.photo_set.all.first.image.url }}" alt="Card image cap">
           {% else %}
             <img class="card-img-top" style="width: 100%; height: 25rem"
-                 src="{{ company.author.userprofile.image.url }}" alt="Card image cap">
+                 src="https://res.cloudinary.com/egorcloud/image/upload/v1621249116/votleq4mdqkx0stxbk1h.jpg" alt="Card image cap">
           {% endif %}
           <div class="card-body">
             <h2 class="card-title">{{ company.title }}</h2>
