@@ -133,10 +133,11 @@ def profile(request):
 def add_star_rating(request):
     if request.method == 'POST':
         form = RatingForm(request.POST or None)
+        print('I worked')
         if form.is_valid():
             Rating.objects.update_or_create(
                 author_id=request.user.id,
-                company_id=int(request.POST.get('company_id')),
+                company_id=int(request.POST.get('company')),
                 defaults={'star_id': int(request.POST.get('star'))}
             )
             return HttpResponse(status=201)

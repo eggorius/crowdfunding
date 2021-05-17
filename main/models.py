@@ -79,6 +79,8 @@ class Rating(models.Model):
         return f'{self.star} - {self.company}'
 
 
+
+
 #  Users staff
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
