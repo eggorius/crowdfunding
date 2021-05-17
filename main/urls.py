@@ -18,6 +18,7 @@ urlpatterns = [
     path('company/<int:pk>/delete', views.delete_company, name='delete-company'),
     path('company/<int:pk>/comments/new', views.leave_comment, name='create-comment'),
     path('search', views.search_view, name='search'),
+    path('profile/update-image', views.update_profile_image, name='profile-image')
 
 ]
 

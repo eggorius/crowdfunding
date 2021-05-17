@@ -132,6 +132,7 @@ def profile(request):
     return render(request, 'main/profile.html')
 
 
+@login_required
 def add_star_rating(request):
     if request.method == 'POST':
         form = RatingForm(request.POST or None)
@@ -147,6 +148,7 @@ def add_star_rating(request):
             return HttpResponse(status=400)
 
 
+@login_required
 def upload_company_images(request, pk):
     if request.method == 'POST':
         print(request.FILES)
@@ -192,3 +194,19 @@ def search_view(request):
         return render(request, 'main/search_results.html', {'q': q, 'results': results})
 
     return render(request, 'main/search_results.html')
+
+
+def update_profile_image(request):
+    if request.method == 'POST':
+        file = request.FILES.get('file')
+        if file is not None:
+            # Rating.objects.update_or_create(
+            #     author_id=request.user.id,
+            #     company_id=int(request.POST.get('company')),
+            #     defaults={'star_id': int(request.POST.get('star'))}
+            # )
+            user_profile = UserProfile.objects.get(user_id=request.user.id)
+            user_profile.image = file
+            user_profile.save()
+        return HttpResponse(status=201)
+    return HttpResponse('')

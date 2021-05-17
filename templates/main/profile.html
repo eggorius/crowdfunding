@@ -3,18 +3,33 @@
 {% load crispy_forms_tags %}
 {% block content %}
   <div class="content-section">
+
     <div class="media">
-      {% if user.userprogile.image is None %}
-        <img class="rounded-circle account-img"
-             src="https://res.cloudinary.com/egorcloud/image/upload/v1621249116/votleq4mdqkx0stxbk1h.jpg" alt="">
-      {% else %}
         <img class="rounded-circle account-img" src="{{ user.userprofile.image.url }}" alt="">
-      {% endif %}
       <div class="media-body">
         <h2 style="font-size: 2.5rem">{{ user.username }}</h2>
         <p class="text-secondary">{{ user.email }}</p>
       </div>
     </div>
-    <!-- FORM HERE -->
+    <p class="lead">You can update your profile image here</p>
+    <form action="{% url 'profile-image' %}" method="POST" class="dropzone" name="images"
+          id="my-dropzone"
+          style="border: dashed #CCCCCC; border-radius: 10px" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="fallback">
+        <input name="file" type="file" multiple>
+      </div>
+    </form>
   </div>
+{% endblock %}
+{% block script %}
+  <script>
+    Dropzone.autoDiscover = false;
+
+    const myDropzone = new Dropzone('#my-dropzone', {
+      maxFiles: 1,
+      maxFilesize: 2,
+      acceptedFiles: '.jpg',
+    })
+  </script>
 {% endblock %}
