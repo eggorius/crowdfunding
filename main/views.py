@@ -200,11 +200,6 @@ def update_profile_image(request):
     if request.method == 'POST':
         file = request.FILES.get('file')
         if file is not None:
-            # Rating.objects.update_or_create(
-            #     author_id=request.user.id,
-            #     company_id=int(request.POST.get('company')),
-            #     defaults={'star_id': int(request.POST.get('star'))}
-            # )
             user_profile = UserProfile.objects.get(user_id=request.user.id)
             user_profile.image = file
             user_profile.save()

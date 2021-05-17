@@ -37,10 +37,8 @@ class Company(models.Model):
     @property
     def get_average_rating(self):
         total_rating = 0
-        print("count ", self.rating_set.count())
         for rating in self.rating_set.all():
             total_rating += int(rating.star.value)
-        print("Total rating ", total_rating)
         if self.rating_set.count() == 0:
             return total_rating
         return total_rating / self.rating_set.count()
