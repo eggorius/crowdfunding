@@ -45,6 +45,9 @@ class Company(models.Model):
             return total_rating
         return total_rating / self.rating_set.count()
 
+    class Meta:
+        ordering = ['-date_created']
+
 
 class Bonus(models.Model):
     money = models.CharField(max_length=20)

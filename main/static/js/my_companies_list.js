@@ -23,8 +23,9 @@ deleteForm.addEventListener("submit", e => {
         'Deleted!',
         'Your company has been deleted.',
         'success'
-      )
-      document.location.reload()
+      ).then((result) => {
+        document.location.reload()
+      })
     }
   })
 })

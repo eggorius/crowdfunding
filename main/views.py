@@ -57,6 +57,8 @@ def create_company(request):
                     if not Tag.objects.filter(title=tag).exists():
                         t.save()
                         form.instance.tags.add(t)
+                    else:
+                        form.instance.tags.add(Tag.objects.filter(title=t).first())
             return redirect('my-companies')
     form = CompanyForm(request.POST or None)
     return render(request, 'main/company_create_form.html', {'form': form})
@@ -178,8 +180,7 @@ def delete_company(request, pk):
         company = Company.objects.get(id=pk)
         company.delete()
         print('Everything is working')
-        companies = Company.objects.all()
-        return render(request, 'main/company_list.html', {'companies': companies})
+        return HttpResponse(200)
 
 
 def search_view(request):
