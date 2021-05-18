@@ -15,6 +15,7 @@ django-crispy-forms==1.11.2
 django-embed-video==1.4.0
 django-heroku==0.3.1
 django-js-asset==1.2.2
+django-modeltranslation==0.17.1
 django-tagify==0.20
 gunicorn==20.1.0
 idna==2.10
