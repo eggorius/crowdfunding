@@ -31,7 +31,7 @@
           <div class="card-body">
             <h2 class="card-title">{{ company.title }}</h2>
             <p class="card-text">{{ company.description|truncatechars:500|safe }}</p>
-            <a class="btn btn-primary" href="{% url 'company' company.id %}">Read More →</a>
+            <a class="btn btn-primary" href="{% url 'company' company.id %}">{% trans 'Read More' %} →</a>
           </div>
           <div class="card-footer text-muted">
             Posted on {{ company.date_created|date:"F d, Y" }}
@@ -43,16 +43,16 @@
           </div>
         </div>
       {% empty %}
-        <h2 class="mt-5 mb-5">UPS! No companies found...</h2>
+        <h2 class="mt-5 mb-5">{% trans 'UPS! No companies found...' %}</h2>
       {% endfor %}
 
       <!-- Pagination-->
       <ul class="pagination justify-content-center mb-4">
         {% if companies.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page={{ companies.previous_page_number }}">← Older</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ companies.previous_page_number }}">← {% trans 'Older' %}</a></li>
         {% endif %}
         {% if companies.has_next %}
-          <li class="page-item"><a class="page-link" href="?page={{ companies.next_page_number }}">Newer →</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ companies.next_page_number }}">{% trans 'Newer' %} →</a></li>
         {% endif %}
       </ul>
     </div>
