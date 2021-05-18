@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load i18n %}
 {% load static %}
 {% block content %}
   {% if companies %}
@@ -29,10 +30,10 @@
                     <div class="btn-group">
                       <form method="POST" action="{% url 'delete-company' company.id %}" name="erase">
                         {% csrf_token %}
-                        <a href="{% url 'company' company.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                        <a href="{% url 'company' company.id %}" class="btn btn-sm btn-outline-secondary">{% trans 'View' %}</a>
                         <a href="{% url 'update-company' company.id %}"
-                           class="btn btn-sm btn-outline-secondary">Edit</a>
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                           class="btn btn-sm btn-outline-secondary">{% trans 'Edit' %}</a>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">{% trans 'Delete' %}</button>
                       </form>
                     </div>
                     <small class="text-muted">{{ company.date_created|date:"F d, Y" }}</small>
@@ -45,7 +46,7 @@
       </div>
     </div>
   {% else %}
-    <h2>You have no companies yet. Create one</h2>
+    <h2>{% trans 'You have no companies yet. Create one' %}</h2>
   {% endif %}
 
 {% endblock %}

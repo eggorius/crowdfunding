@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 {% load crispy_forms_filters %}
 {% load static %}
@@ -10,7 +11,7 @@
 
   <div class="row g-5">
     <div class="col-md-4 order-md-2">
-      <p class="lead">Already have an account? <br> <a href="{% url 'login' %}" class="btn btn-primary">Sign in</a></p>
+      <p class="lead">{% trans 'Already have an account?' %} <br> <a href="{% url 'login' %}" class="btn btn-primary">{% trans 'Sign in' %}</a></p>
     </div>
     <div class="col-md-7 col-lg-8">
       <h4 class="mb-3">Main Information</h4>
@@ -32,7 +33,7 @@
                 <span class="input-group-text">@</span>
                 {{ form.email }}
                 <div class="invalid-feedback">
-                  Please enter a valid email
+                  {% trans 'Please enter a valid email' %}
                 </div>
               </div>
           </div>

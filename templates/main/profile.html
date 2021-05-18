@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
+{% load i18n %}
 {% block content %}
   <div class="content-section">
 
@@ -11,7 +12,7 @@
         <p class="text-secondary">{{ user.email }}</p>
       </div>
     </div>
-    <p class="lead">You can update your profile image here</p>
+    <p class="lead">{% trans 'You can update your profile image here' %}</p>
     <form action="{% url 'profile-image' %}" method="POST" class="dropzone" name="images"
           id="my-dropzone"
           style="border: dashed #CCCCCC; border-radius: 10px" enctype="multipart/form-data">

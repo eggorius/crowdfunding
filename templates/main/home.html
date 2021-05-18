@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block styles %}
   <link rel="stylesheet" href="{% static 'css/tagify.css' %}">
 {% endblock %}
@@ -8,7 +9,7 @@
     <!-- Blog entries-->
     <div class="col-md-8">
       <h1 class="my-4">
-        <small>Type some tags</small>
+        <small>{% trans 'Type some tags' %}</small>
       </h1>
       <form method="post" class="mt-3 mb-3">
         {% csrf_token %}
@@ -30,7 +31,7 @@
           <div class="card-body">
             <h2 class="card-title">{{ company.title }}</h2>
             <p class="card-text">{{ company.description|truncatechars:500|safe }}</p>
-            <a class="btn btn-primary" href="{% url 'company' company.id %}">Read More →</a>
+            <a class="btn btn-primary" href="{% url 'company' company.id %}">{% trans 'Read More' %} →</a>
           </div>
           <div class="card-footer text-muted">
             Posted on {{ company.date_created|date:"F d, Y" }}
@@ -42,16 +43,16 @@
           </div>
         </div>
       {% empty %}
-        <h2 class="mt-5 mb-5">UPS! No companies found...</h2>
+        <h2 class="mt-5 mb-5">{% trans 'UPS! No companies found...' %}</h2>
       {% endfor %}
 
       <!-- Pagination-->
       <ul class="pagination justify-content-center mb-4">
         {% if companies.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page={{ companies.previous_page_number }}">← Older</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ companies.previous_page_number }}">← {% trans 'Older' %}</a></li>
         {% endif %}
         {% if companies.has_next %}
-          <li class="page-item"><a class="page-link" href="?page={{ companies.next_page_number }}">Newer →</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ companies.next_page_number }}">{% trans 'Newer' %} →</a></li>
         {% endif %}
       </ul>
     </div>
@@ -82,7 +83,7 @@
       <!-- Side widget-->
       <div class="card my-4">
         <div class="card-body">
-          <a href="{% url 'home' %}" class="btn btn-outline-secondary">Show all</a>
+          <a href="{% url 'home' %}" class="btn btn-outline-secondary">{% trans 'Show all' %}</a>
         </div>
       </div>
     </div>

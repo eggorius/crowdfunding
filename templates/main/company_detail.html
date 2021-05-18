@@ -2,7 +2,8 @@
 {% load crispy_forms_filters %}
 {% load static %}
 {% load cloudinary %}
-{% load embed_video_tags %}'
+{% load embed_video_tags %}
+{% load i18n %}
 {% block styles %}
   <link rel="stylesheet" href="{% static 'CSS/company_details.css' %}">
 {% endblock %}
@@ -38,7 +39,7 @@
       <hr>
       <!-- Rating form-->
       <form action="{% url 'add-rating' %}" method="POST" name="rating">
-        <p class="lead">Rate this company</p>
+        <p class="lead">{% trans 'Rate this company' %}</p>
         {% csrf_token %}
         <span class="rating">
           {% for k, v in star_form.fields.star.choices %}
@@ -51,7 +52,7 @@
       <hr>
       <!-- Comments form-->
       <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
+        <h5 class="card-header">{% trans 'Leave a Comment:' %}</h5>
         <div class="card-body">
           <form method="POST" action="{% url 'create-comment' company.id %}">
             {% csrf_token %}
@@ -107,7 +108,7 @@
           <hr>
           <p class="lead">${{ company.goal }}</p>
           <hr>
-          <button class="btn btn-outline-success" name="donate">Donate</button>
+          <button class="btn btn-outline-success" name="donate">{% trans 'Donate' %}</button>
           {% if company.author == user or user.is_superuser %}
             <a class="btn btn-secondary" href="{% url 'update-company' company.id %}">Update company</a>
           {% endif %}
