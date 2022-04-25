@@ -102,7 +102,7 @@ class UserProfile(models.Model):
 
 class Photo(models.Model):
     # Misc Django Fields
-    title = models.CharField("Title (optional)", max_length=200, blank=True)
+    title = models.CharField('Title (optional)', max_length=200, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     # Points to a Cloudinary image

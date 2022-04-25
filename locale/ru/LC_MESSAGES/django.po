@@ -61,7 +61,7 @@ msgstr "Оцените данную компанию"
 
 #: .\templates\main\company_detail.html:55
 msgid "Leave a Comment:"
-msgstr "Оставьте свой комментарий"
+msgstr "Оставьте свой комментарий:"
 
 #: .\templates\main\company_detail.html:111
 msgid "Donate"
@@ -109,7 +109,7 @@ msgstr "Показать все"
 
 #: .\templates\main\login.html:15
 msgid "Please sign in"
-msgstr "Пожалуйста войдите"
+msgstr "Пожалуйста, войдите"
 
 #: .\templates\main\login.html:16
 msgid "Username"
